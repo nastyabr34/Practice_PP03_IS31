@@ -1,0 +1,64 @@
+import tkinter as tk
+from tkinter import filedialog, StringVar, Label, Button, Entry
+from image_utils import convert_image, load_image
+
+
+class ImageConverterUI:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Конвертер изображений")
+
+        self.image_path = StringVar()
+        self.destination_path = StringVar()
+        self.conv_type = StringVar()
+        self.info = StringVar()
+
+        self.create_widgets()
+
+    def create_widgets(self):
+        Label(self.master, text="Путь к изображению:").grid(row=0, column=0, padx=10, pady=10)
+        Entry(self.master, textvariable=self.image_path, width=50).grid(row=0, column=1, padx=10, pady=10)
+        Button(self.master, text="Выбрать изображение", command=self.select_image).grid(row=0, column=2, padx=10, pady=10)
+
+        Label(self.master, text="Тип конвертации:").grid(row=1, column=0, padx=10, pady=10)
+        Entry(self.master, textvariable=self.conv_type, width=5).grid(row=1, column=1, padx=10, pady=10)
+
+        Label(self.master, text="Выбрать папку:").grid(row=2, column=0, padx=10, pady=10)
+        Entry(self.master, textvariable=self.destination_path, width=50).grid(row=2, column=1, padx=10, pady=10)
+        Button(self.master, text="Выбрать папку", command=self.select_destination_folder).grid(row=2, column=2, padx=10, pady=10)
+
+        Button(self.master, text="Конвертировать", command=self.convert_image).grid(row=3, column=0, columnspan=3, pady=10)
+
+        self.image_label = Label(self.master)
+        self.image_label.grid(row=0, column=3, rowspan=4, padx=10, pady=10)
+
+        Label(self.master, textvariable=self.info, fg="green").grid(row=4, column=0, columnspan=3, padx=10, pady=10)
+
+    def select_image(self):
+        file_path = filedialog.askopenfilename(title="Выберите изображение", filetypes=[("Images", "*.jpg;*.png;*.jpeg")])
+        if file_path:
+            self.image_path.set(file_path)
+            img = load_image(file_path)
+            img.thumbnail((200, 200))
+            self.image_label.config(image=img)
+            self.image_label.image = img
+
+    def select_destination_folder(self):
+        folder_path = filedialog.askdirectory(title="Выберите папку для сохранения")
+        if folder_path:
+            self.destination_path.set(folder_path)
+
+    def convert_image(self):
+        src_path = self.image_path.get()
+        dest_folder = self.destination_path.get()
+        conversion_type = self.conv_type.get()
+
+        if not src_path or not dest_folder or not conversion_type:
+            self.info.set("Пожалуйста, заполните все поля.")
+            return
+
+        try:
+            new_file_path = convert_image(src_path, dest_folder, conversion_type)
+            self.info.set(f"Изображение сохранено: {new_file_path}")
+        except Exception as e:
+            self.info.set(f"Ошибка: {str(e)}")

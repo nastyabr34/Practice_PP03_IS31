@@ -1,0 +1,7 @@
+import tkinter as tk
+from ui import ImageConverterUI
+
+if name == "__main__":
+    root = tk.Tk()
+    app = ImageConverterUI(root)
+    root.mainloop()

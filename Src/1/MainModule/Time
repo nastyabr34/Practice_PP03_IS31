@@ -1,0 +1,16 @@
+import tkinter as tk
+import time
+
+class ImageConverterApp:
+    def __init__(self, master):
+        self.master = master
+        master.title("Image Converter App")
+
+    def some_operation(self):
+        start_time = time.time()
+        time_taken = time.time() - start_time
+        print(f"some_operation took {time_taken:.6f} seconds.")
+
+if name == "__main__":
+    root = tk.Tk()
+    app = ImageConverterApp(root)

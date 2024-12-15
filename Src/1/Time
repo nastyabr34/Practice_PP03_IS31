@@ -36,28 +36,28 @@ class ImageConverterApp:
             print(f"{module.__name__}: {sys.getsizeof(module)} bytes")
 
     def load_image(self):
-        start_time = time.time()  # Начало замера времени
+        start_time = time.time() 
         self.image_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.jpeg;*.png")])
         if self.image_path:
-            load_duration = time.time() - start_time  # Время загрузки
+            load_duration = time.time() - start_time  
             self.info_label.config(text=f"Загружено изображение: {os.path.basename(self.image_path)}\\n")
             self.show_image(self.image_path)
             self.convert_button.config(state=tk.NORMAL)
             print(f"Время загрузки изображения: {load_duration:.4f} секунд")
 
     def show_image(self, path):
-        start_time = time.time()  # Начало замера времени
+        start_time = time.time() 
         img = Image.open(path)
         img.thumbnail((30, 30))
         self.img = img
         self.img_photo = tk.PhotoImage(img)
         self.img_label.config(image=self.img_photo)
-        show_duration = time.time() - start_time  # Время отображения
+        show_duration = time.time() - start_time 
         print(f"Время отображения изображения: {show_duration:.4f} секунд")
 
     def convert_image(self):
         if self.image_path:
-            start_time = time.time()  # Начало замера времени
+            start_time = time.time() 
             if self.image_path.lower().endswith('.png'):
                 new_path = self.image_path[:-4] + '.jpg'
                 self.img.convert('RGB').save(new_path)
@@ -68,7 +68,7 @@ class ImageConverterApp:
                 self.info_label.config(text=f"Изображение сохранено как: {os.path.basename(new_path)}\\n")
             else:
                 messagebox.showerror("Ошибка", "Неверный формат изображения.")
-            convert_duration = time.time() - start_time  # Время конвертации
+            convert_duration = time.time() - start_time 
             print(f"Время конвертации изображения: {convert_duration:.4f} секунд")
         else:
             messagebox.showerror("Ошибка", "Сначала загрузите изображение.")

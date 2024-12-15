@@ -29,8 +29,8 @@ class ImageConverterApp:
         self.convert_button.config(state=tk.DISABLED)
 
     def load_image(self):
-        start_time = time.time()  # Измеряем время начала
-        mem_before = memory_usage()[0]  # Измеряем использование памяти перед загрузкой
+        start_time = time.time()  
+        mem_before = memory_usage()[0]  
 
         self.image_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.jpeg;*.png")])
         if self.image_path:
@@ -39,10 +39,8 @@ class ImageConverterApp:
             self.show_image(self.img)
             self.convert_button.config(state=tk.NORMAL)
 
-        end_time = time.time()  # Измеряем время окончания
-        mem_after = memory_usage()[0]  # Измеряем использование памяти после загрузки
-
-        # Выводим результаты
+        end_time = time.time()  
+        mem_after = memory_usage()[0]  
         print(f"Время загрузки изображения: {end_time - start_time:.4f} секунд")
         print(f"Использование памяти: {mem_after - mem_before:.2f} MB")
 
@@ -52,8 +50,8 @@ class ImageConverterApp:
         self.img_label.config(image=self.img_photo)
 
     def convert_image(self):
-        start_time = time.time()  # Измеряем время начала
-        mem_before = memory_usage()[0]  # Измеряем использование памяти перед конвертацией
+        start_time = time.time() 
+        mem_before = memory_usage()[0]  
 
         if self.image_path and self.img:
             new_path = convert_image(self.img, self.image_path)
@@ -64,14 +62,12 @@ class ImageConverterApp:
         else:
             messagebox.showerror("Ошибка", "Сначала загрузите изображение.")
 
-        end_time = time.time()  # Измеряем время окончания
-        mem_after = memory_usage()[0]  # Измеряем использование памяти после конвертации
+        end_time = time.time()  
+        mem_after = memory_usage()[0]  
 
-        # Выводим результаты
         print(f"Время конвертации изображения: {end_time - start_time:.4f} секунд")
         print(f"Использование памяти: {mem_after - mem_before:.2f} MB")
 
-# Запуск приложения
 if name == "__main__":
     root = tk.Tk()
     app = ImageConverterApp(root)
